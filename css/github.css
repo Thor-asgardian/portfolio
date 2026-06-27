@@ -1,0 +1,299 @@
+/* ==========================================
+   GitHub Section
+========================================== */
+
+.github {
+
+    background: var(--bg);
+
+    padding: 120px 8%;
+
+}
+
+.github-container {
+
+    max-width: 1300px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 40px;
+
+    align-items: stretch;
+
+}
+
+/* ==========================================
+   GitHub Card
+========================================== */
+
+.github-card {
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    padding: 40px;
+
+    box-shadow: var(--shadow);
+
+    transition: var(--transition);
+
+}
+
+.github-card:hover {
+
+    transform: translateY(-10px);
+
+}
+
+/* GitHub Avatar */
+
+.github-avatar {
+
+    width: 90px;
+
+    height: 90px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 3px solid var(--accent);
+
+    margin-bottom: 25px;
+
+}
+
+/* Icon (optional if not using avatar) */
+
+.github-card i {
+
+    font-size: 60px;
+
+    color: var(--accent);
+
+    margin-bottom: 25px;
+
+}
+
+.github-card h3 {
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    color: var(--text);
+
+    margin-bottom: 18px;
+
+}
+
+.github-card p {
+
+    color: var(--text2);
+
+    line-height: 1.8;
+
+    margin-bottom: 35px;
+
+}
+
+/* ==========================================
+   GitHub Button
+========================================== */
+
+.github-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 15px 28px;
+
+    background: var(--accent);
+
+    color: #fff;
+
+    border-radius: 50px;
+
+    font-weight: 600;
+
+    transition: var(--transition);
+
+}
+
+.github-btn:hover {
+
+    background: var(--accent2);
+
+    transform: translateY(-4px);
+
+}
+
+.github-btn i {
+
+    font-size: 15px;
+
+    margin: 0;
+
+    color: #fff;
+
+}
+
+/* ==========================================
+   Statistics
+========================================== */
+
+.github-stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+
+}
+
+.stat-box {
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    padding: 35px;
+
+    text-align: center;
+
+    box-shadow: var(--shadow);
+
+    transition: var(--transition);
+
+}
+
+.stat-box:hover {
+
+    transform: translateY(-8px);
+
+}
+
+.stat-box h2 {
+
+    font-size: 42px;
+
+    color: var(--accent);
+
+    margin-bottom: 12px;
+
+    font-weight: 700;
+
+}
+
+.stat-box p {
+
+    color: var(--text2);
+
+    font-size: 15px;
+
+    line-height: 1.6;
+
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width: 992px) {
+
+    .github {
+
+        padding: 90px 6%;
+
+    }
+
+    .github-container {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+@media (max-width: 768px) {
+
+    .github-stats {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .github {
+
+        padding: 80px 6%;
+
+    }
+
+    .github-card {
+
+        padding: 28px;
+
+        text-align: center;
+
+    }
+
+    .github-avatar {
+
+        width: 75px;
+
+        height: 75px;
+
+        margin: 0 auto 20px;
+
+    }
+
+    .github-card i {
+
+        font-size: 50px;
+
+    }
+
+    .github-card h3 {
+
+        font-size: 24px;
+
+    }
+
+    .github-stats {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .stat-box {
+
+        padding: 28px;
+
+    }
+
+    .stat-box h2 {
+
+        font-size: 34px;
+
+    }
+
+}

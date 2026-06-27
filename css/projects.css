@@ -1,0 +1,320 @@
+/* ==========================================
+   Featured Projects
+========================================== */
+
+.projects {
+
+    background: var(--bg);
+
+    padding: 120px 8%;
+
+}
+
+.project-container {
+
+    max-width: 1300px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 60px;
+
+}
+
+/* ==========================================
+   Project Card
+========================================== */
+
+.project-card {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    align-items: center;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow);
+
+    transition: var(--transition);
+
+}
+
+/* Alternate Image Position */
+
+.project-card:nth-child(even) {
+
+    direction: rtl;
+
+}
+
+.project-card:nth-child(even) .project-content {
+
+    direction: ltr;
+
+}
+
+.project-card:hover {
+
+    transform: translateY(-10px);
+
+}
+
+/* ==========================================
+   Project Image
+========================================== */
+
+.project-image {
+
+    overflow: hidden;
+
+    height: 100%;
+
+}
+
+.project-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: transform .5s ease;
+
+}
+
+.project-card:hover .project-image img {
+
+    transform: scale(1.08);
+
+}
+
+/* ==========================================
+   Project Content
+========================================== */
+
+.project-content {
+
+    padding: 45px;
+
+}
+
+.project-tag {
+
+    display: inline-block;
+
+    padding: 8px 18px;
+
+    margin-bottom: 20px;
+
+    border-radius: 30px;
+
+    background: rgba(79,140,255,.15);
+
+    color: var(--accent);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: .8px;
+
+}
+
+.project-content h3 {
+
+    font-size: 32px;
+
+    margin-bottom: 20px;
+
+    color: var(--text);
+
+}
+
+.project-content p {
+
+    color: var(--text2);
+
+    line-height: 1.8;
+
+    margin-bottom: 25px;
+
+}
+
+/* ==========================================
+   Technology Stack
+========================================== */
+
+.tech-stack {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-bottom: 30px;
+
+}
+
+.tech-stack span {
+
+    background: #1d1d1d;
+
+    border: 1px solid var(--border);
+
+    color: var(--text);
+
+    padding: 10px 18px;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+
+    transition: var(--transition);
+
+}
+
+.tech-stack span:hover {
+
+    background: var(--accent);
+
+    color: #fff;
+
+}
+
+/* ==========================================
+   Buttons
+========================================== */
+
+.project-links {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 18px;
+
+}
+
+.project-links a {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 14px 26px;
+
+    border-radius: 50px;
+
+    font-weight: 600;
+
+    transition: var(--transition);
+
+}
+
+.project-links .primary-btn {
+
+    background: var(--accent);
+
+    color: #fff;
+
+}
+
+.project-links .primary-btn:hover {
+
+    background: var(--accent2);
+
+}
+
+.project-links .secondary-btn {
+
+    border: 2px solid var(--accent);
+
+    color: var(--text);
+
+}
+
+.project-links .secondary-btn:hover {
+
+    background: var(--accent);
+
+    color: #fff;
+
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width: 992px) {
+
+    .projects {
+
+        padding: 90px 6%;
+
+    }
+
+    .project-card,
+    .project-card:nth-child(even) {
+
+        grid-template-columns: 1fr;
+
+        direction: ltr;
+
+    }
+
+    .project-content {
+
+        padding: 35px;
+
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .project-content {
+
+        padding: 25px;
+
+    }
+
+    .project-content h3 {
+
+        font-size: 24px;
+
+    }
+
+    .project-links {
+
+        flex-direction: column;
+
+    }
+
+    .project-links a {
+
+        width: 100%;
+
+    }
+
+}

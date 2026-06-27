@@ -1,0 +1,59 @@
+.software{
+
+    background:var(--bg2);
+
+}
+
+.software-grid{
+
+    max-width:1300px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:25px;
+
+}
+
+.tool-card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    text-align:center;
+
+    transition:var(--transition);
+
+    box-shadow:var(--shadow);
+
+}
+
+.tool-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.tool-card i{
+
+    font-size:45px;
+
+    color:var(--accent);
+
+    margin-bottom:18px;
+
+}
+
+.tool-card h3{
+
+    font-size:18px;
+
+}

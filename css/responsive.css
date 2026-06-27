@@ -1,0 +1,259 @@
+/* ==========================================
+   Large Tablets
+========================================== */
+
+@media (max-width: 1100px) {
+
+    .hero {
+
+        grid-template-columns: 1fr;
+
+        text-align: center;
+
+        gap: 60px;
+
+    }
+
+    .hero-left {
+
+        align-items: center;
+
+    }
+
+    .hero-description {
+
+        max-width: 100%;
+
+        margin: 0 auto;
+
+    }
+
+    .hero-buttons,
+    .social-icons {
+
+        justify-content: center;
+
+    }
+
+    .about-container,
+    .contact-container,
+    .github-container {
+
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+
+    }
+
+    .project-card,
+    .project-card:nth-child(even) {
+
+        grid-template-columns: 1fr;
+
+        direction: ltr;
+
+    }
+
+}
+
+/* ==========================================
+   Tablets
+========================================== */
+
+@media (max-width: 992px) {
+
+    section {
+
+        padding: 90px 6%;
+
+    }
+
+    .navbar {
+
+        padding: 20px 6%;
+
+    }
+
+    .section-title h2 {
+
+        font-size: 42px;
+
+    }
+
+    .about-details,
+    .about-highlights {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    .skills-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    .software-grid {
+
+        grid-template-columns: repeat(3, 1fr);
+
+    }
+
+    .github-stats {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+
+    .hero h1 {
+
+        font-size: 52px;
+
+    }
+
+    .hero h2 {
+
+        font-size: 28px;
+
+    }
+
+    .section-title h2 {
+
+        font-size: 36px;
+
+    }
+
+    .timeline-item {
+
+        flex-direction: column;
+
+        gap: 20px;
+
+    }
+
+    .timeline::before {
+
+        display: none;
+
+    }
+
+    .footer-container {
+
+        flex-direction: column;
+
+        text-align: center;
+
+        gap: 35px;
+
+    }
+
+    .footer-links {
+
+        justify-content: center;
+
+    }
+
+    .footer-social {
+
+        justify-content: center;
+
+    }
+
+}
+
+/* ==========================================
+   Small Mobile
+========================================== */
+
+@media (max-width: 576px) {
+
+    section {
+
+        padding: 80px 6%;
+
+    }
+
+    .hero {
+
+        gap: 40px;
+
+    }
+
+    .hero-image {
+
+        width: 260px;
+
+        height: 260px;
+
+    }
+
+    .hero-buttons {
+
+        flex-direction: column;
+
+        width: 100%;
+
+    }
+
+    .primary-btn,
+    .secondary-btn {
+
+        width: 100%;
+
+        justify-content: center;
+
+    }
+
+    .about-details,
+    .about-highlights,
+    .skills-grid,
+    .software-grid,
+    .research-grid,
+    .certificate-grid,
+    .github-stats {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .project-content {
+
+        padding: 25px;
+
+    }
+
+    .project-links {
+
+        flex-direction: column;
+
+    }
+
+    .project-links a {
+
+        width: 100%;
+
+        justify-content: center;
+
+    }
+
+    .contact-right {
+
+        padding: 25px;
+
+    }
+
+    .footer-left h2 {
+
+        font-size: 30px;
+
+    }
+
+}

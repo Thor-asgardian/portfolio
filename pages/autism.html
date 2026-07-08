@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+        <title>
+            AI-Powered Stuttering Classifier | Bhuvan R
+        </title>
+
+        <meta name="description"
+            content="AI-powered speech analysis system for stuttering detection using Wav2Vec2, FastAPI and React.">
+
+        <link rel="preconnect"
+            href="https://fonts.googleapis.com">
+
+        <link rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin>
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet">
+
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+        <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#0b0b0f;
+    color:#f5f5f5;
+    line-height:1.7;
+}
+
+section{
+    padding:90px 8%;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+ul{
+    list-style:none;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.project-header{
+
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    background:rgba(12,12,18,.85);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.project-nav{
+
+    max-width:1300px;
+    margin:auto;
+    height:80px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+.project-nav ul{
+
+    display:flex;
+    gap:35px;
+
+}
+
+.project-nav a{
+
+    color:#fff;
+    transition:.3s;
+
+}
+
+.project-nav a:hover{
+
+    color:#4f8cff;
+
+}
+
+.logo{
+
+    font-size:1.5rem;
+    font-weight:700;
+
+}
+
+/* =========================
+   HERO
+========================= */
+
+.project-hero{
+
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+
+    background:
+    radial-gradient(circle at top right,#2563eb33,transparent 45%),
+    radial-gradient(circle at bottom left,#9333ea22,transparent 40%);
+
+}
+
+.hero-container{
+
+    max-width:1300px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:80px;
+
+    align-items:center;
+
+}
+
+.hero-left h1{
+
+    font-size:4rem;
+
+    line-height:1.1;
+
+    margin:20px 0;
+
+}
+
+.hero-left h1 span{
+
+    color:#4f8cff;
+
+}
+
+.project-label{
+
+    color:#4f8cff;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+}
+
+.hero-left p{
+
+    color:#bcbcbc;
+
+    margin:25px 0;
+
+    max-width:600px;
+
+}
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:20px;
+
+    margin-top:40px;
+
+}
+
+.primary-btn{
+
+    background:#4f8cff;
+
+    color:white;
+
+    padding:15px 34px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.primary-btn:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.secondary-btn{
+
+    border:2px solid #4f8cff;
+
+    color:#4f8cff;
+
+    padding:15px 34px;
+
+    border-radius:50px;
+
+    transition:.3s;
+
+}
+
+.secondary-btn:hover{
+
+    background:#4f8cff;
+
+    color:#fff;
+
+}
+
+.hero-tags{
+
+    margin-top:40px;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+}
+
+.hero-tags span{
+
+    padding:10px 18px;
+
+    border-radius:30px;
+
+    background:#171717;
+
+    border:1px solid #2a2a2a;
+
+}
+
+.hero-right img{
+
+    width:100%;
+
+    border-radius:24px;
+
+    box-shadow:0 30px 60px rgba(0,0,0,.4);
+
+}
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-title{
+
+    text-align:center;
+
+    margin-bottom:70px;
+
+}
+
+.section-title p{
+
+    color:#4f8cff;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+}
+
+.section-title h2{
+
+    font-size:2.8rem;
+
+    margin-top:10px;
+
+}
+
+/* =========================
+   GRIDS
+========================= */
+
+.overview-grid,
+.feature-grid,
+.stack-grid,
+.challenge-grid,
+.future-grid,
+.screenshots-grid{
+
+    display:grid;
+
+    gap:30px;
+
+}
+
+.overview-grid{
+
+    grid-template-columns:1.2fr 1fr;
+
+}
+
+.feature-grid,
+.challenge-grid,
+.future-grid,
+.screenshots-grid{
+
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+}
+
+.stack-grid{
+
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.info-card,
+.feature-card,
+.stack-card,
+.challenge-card,
+.future-card,
+.screenshot-card,
+.stat-card,
+.github-card{
+
+    background:#15151b;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    transition:.35s;
+
+}
+
+.info-card:hover,
+.feature-card:hover,
+.stack-card:hover,
+.challenge-card:hover,
+.future-card:hover,
+.screenshot-card:hover,
+.stat-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#4f8cff;
+
+}
+
+.info-card i,
+.feature-card i,
+.stack-card i,
+.challenge-card i,
+.future-card i{
+
+    font-size:2rem;
+
+    color:#4f8cff;
+
+    margin-bottom:18px;
+
+}
+
+.stat-card{
+
+    text-align:center;
+
+}
+
+.stat-card h2{
+
+    font-size:2.8rem;
+
+    color:#4f8cff;
+
+}
+
+/* =========================
+   ARCHITECTURE
+========================= */
+
+.architecture-flow{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.flow-box{
+
+    background:#171717;
+
+    padding:25px 35px;
+
+    border-radius:16px;
+
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+.flow-arrow{
+
+    font-size:2rem;
+
+    color:#4f8cff;
+
+}
+
+/* =========================
+   WORKFLOW
+========================= */
+
+.workflow-container{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:25px;
+
+}
+
+.workflow-step{
+
+    background:#171717;
+
+    width:180px;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+}
+
+.workflow-step span{
+
+    display:inline-flex;
+
+    width:50px;
+
+    height:50px;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:50%;
+
+    background:#4f8cff;
+
+    margin-bottom:20px;
+
+}
+
+/* =========================
+   GITHUB
+========================= */
+
+.github-card{
+
+    text-align:center;
+
+    max-width:900px;
+
+    margin:auto;
+
+}
+
+.github-buttons{
+
+    margin-top:40px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.project-footer{
+
+    background:#090909;
+
+    padding:60px 8%;
+
+    text-align:center;
+
+    margin-top:80px;
+
+}
+
+.footer-social{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:18px;
+
+    margin:25px 0;
+
+}
+
+.footer-social a{
+
+    width:50px;
+
+    height:50px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:50%;
+
+    background:#171717;
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+.hero-container,
+.overview-grid{
+
+grid-template-columns:1fr;
+
+text-align:center;
+
+}
+
+.project-nav{
+
+padding:0 20px;
+
+}
+
+.project-nav ul{
+
+display:none;
+
+}
+
+.hero-left h1{
+
+font-size:3rem;
+
+}
+
+}
+
+</style>
+
+    </head>
+
+    <body>
+
+        <!--================ NAVBAR ================-->
+
+        <header class="project-header">
+
+            <nav class="project-nav">
+
+                <a href="../index.html"
+                    class="logo">
+
+                    <span>Bhuvan R</span>
+
+                </a>
+
+                <ul>
+
+                    <li><a href="../index.html">Portfolio</a></li>
+
+                    <li><a href="#overview">Overview</a></li>
+
+                    <li><a href="#features">Features</a></li>
+
+                    <li><a href="#architecture">Architecture</a></li>
+
+                    <li><a href="#contact">Contact</a></li>
+
+                </ul>
+
+            </nav>
+
+        </header>
+
+        <!--================ HERO ================-->
+
+        <section class="project-hero">
+
+            <div class="hero-bg">
+
+                <span class="circle one"></span>
+                <span class="circle two"></span>
+                <span class="circle three"></span>
+
+            </div>
+
+            <div class="hero-container">
+
+                <div class="hero-left">
+
+                    <span class="project-label">
+
+                        Artificial Intelligence
+
+                    </span>
+
+                    <h1>
+
+                        AI-Powered
+                        <br>
+
+                        <span>Stuttering Classifier</span>
+
+                    </h1>
+
+                    <p>
+
+                        A deep learning-powered speech analysis application
+                        that detects stuttering patterns from uploaded audio
+                        recordings using Wav2Vec2, FastAPI and React.
+
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="https://github.com/Thor-asgardian"
+                            target="_blank"
+                            class="primary-btn">
+
+                            <i class="fab fa-github"></i>
+
+                            GitHub
+
+                        </a>
+
+                        <a href="../index.html#projects"
+                            class="secondary-btn">
+
+                            Back to Portfolio
+
+                        </a>
+
+                    </div>
+
+                    <div class="hero-tags">
+
+                        <span>Python</span>
+
+                        <span>FastAPI</span>
+
+                        <span>React</span>
+
+                        <span>PyTorch</span>
+
+                        <span>Speech AI</span>
+
+                        <span>Wav2Vec2</span>
+
+                    </div>
+
+                </div>
+
+                <div class="hero-right">
+
+                    <img src="../assets/images/projects/stuttering-cover.png"
+                        alt="AI Stuttering Classifier">
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ OVERVIEW ================-->
+
+        <section id="overview"
+            class="project-overview">
+
+            <div class="section-title">
+
+                <p>Project Overview</p>
+
+                <h2>
+                    Intelligent Speech Analysis
+                </h2>
+
+            </div>
+
+            <div class="overview-grid">
+
+                <div class="overview-text">
+
+                    <p>
+
+                        The AI-Powered Stuttering Classifier is designed to
+                        automatically analyze speech recordings and classify
+                        fluent and stuttered speech using deep learning.
+
+                    </p>
+
+                    <p>
+
+                        The application combines a React frontend,
+                        FastAPI backend,
+                        Librosa-based preprocessing,
+                        and a fine-tuned Wav2Vec2 model to provide
+                        reliable speech fluency assessment.
+
+                    </p>
+
+                    <p>
+
+                        The project demonstrates modern AI deployment
+                        by integrating machine learning with scalable
+                        web technologies and an intuitive user interface.
+
+                    </p>
+
+                </div>
+
+                <div class="overview-cards">
+
+                    <div class="info-card">
+
+                        <i class="fas fa-microphone-alt"></i>
+
+                        <h3>Speech Processing</h3>
+
+                        <p>
+
+                            Automatic extraction and preprocessing
+                            of speech signals.
+
+                        </p>
+
+                    </div> <br>
+
+                    <div class="info-card">
+
+                        <i class="fas fa-brain"></i>
+
+                        <h3>Deep Learning</h3>
+
+                        <p>
+
+                            Fine-tuned Wav2Vec2 model
+                            for speech classification.
+
+                        </p>
+
+                    </div> <br>
+
+                    <div class="info-card">
+
+                        <i class="fas fa-server"></i>
+
+                        <h3>REST API</h3>
+
+                        <p>
+
+                            FastAPI backend exposing
+                            real-time prediction endpoints.
+
+                        </p>
+
+                    </div> <br>
+                    <div class="info-card">
+
+                        <i class="fas fa-laptop-code"></i>
+
+                        <h3>Modern UI</h3>
+
+                        <p>
+
+                            Responsive React application
+                            with smooth user experience.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ PROJECT STATS ================-->
+
+        <section class="project-stats">
+
+            <div class="stat-card">
+
+                <h2>10+</h2> <br>
+
+                <p>Technologies Used</p>
+
+            </div><br>
+
+            <div class="stat-card">
+
+                <h2>AI</h2>
+
+                <p>Speech Recognition</p>
+
+            </div><br>
+
+            <div class="stat-card">
+
+                <h2>REST</h2>
+
+                <p>FastAPI Backend</p>
+
+            </div> <br>
+
+            <div class="stat-card">
+
+                <h2>DL</h2>
+
+                <p>Wav2Vec2 Model</p>
+
+            </div>
+
+        </section>
+
+        <!--================ SCROLL ================-->
+
+        <div class="scroll-indicator">
+
+            <span></span>
+
+        </div>
+
+        <!--================ FEATURES ================-->
+
+        <section id="features" class="project-features-section">
+
+            <div class="section-title">
+
+                <p>Capabilities</p>
+
+                <h2>Key Features</h2>
+
+            </div>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <i class="fas fa-upload"></i>
+
+                    <h3>Audio Upload</h3>
+
+                    <p>
+
+                        Upload WAV audio recordings through an intuitive
+                        drag-and-drop interface for instant analysis.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-wave-square"></i>
+
+                    <h3>Audio Preprocessing</h3>
+
+                    <p>
+
+                        Automatic resampling, normalization and feature
+                        extraction using Librosa and FFmpeg.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>Deep Learning</h3>
+
+                    <p>
+
+                        Fine-tuned Wav2Vec2 model performs robust
+                        speech classification with high accuracy.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-chart-line"></i>
+
+                    <h3>Confidence Score</h3>
+
+                    <p>
+
+                        Returns prediction confidence to help interpret
+                        the classification results.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-server"></i>
+
+                    <h3>FastAPI Backend</h3>
+
+                    <p>
+
+                        RESTful API architecture enabling scalable and
+                        efficient inference.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fab fa-react"></i>
+
+                    <h3>Responsive Interface</h3>
+
+                    <p>
+
+                        Modern React application designed for a smooth
+                        and user-friendly experience.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ TECHNOLOGY STACK ================-->
+
+        <section class="technology-stack">
+
+            <div class="section-title">
+
+                <p>Development Stack</p>
+
+                <h2>Technology Stack</h2>
+
+            </div>
+
+            <div class="stack-grid">
+
+                <div class="stack-card">
+
+                    <i class="fab fa-react"></i>
+
+                    <h3>Frontend</h3>
+
+                    <ul>
+
+                        <li>React</li>
+                        <li>TypeScript</li>
+                        <li>Vite</li>
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="stack-card">
+
+                    <i class="fas fa-server"></i>
+
+                    <h3>Backend</h3>
+
+                    <ul>
+
+                        <li>Python</li>
+                        <li>FastAPI</li>
+                        <li>REST API</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="stack-card">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>Artificial Intelligence</h3>
+
+                    <ul>
+
+                        <li>PyTorch</li>
+                        <li>Transformers</li>
+                        <li>Wav2Vec2</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="stack-card">
+
+                    <i class="fas fa-music"></i>
+
+                    <h3>Audio Processing</h3>
+
+                    <ul>
+
+                        <li>Librosa</li>
+                        <li>FFmpeg</li>
+                        <li>NumPy</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ SYSTEM ARCHITECTURE ================-->
+
+        <section id="architecture" class="architecture">
+
+            <div class="section-title">
+
+                <p>Design</p>
+
+                <h2>System Architecture</h2>
+
+            </div>
+
+            <div class="architecture-flow">
+
+                <div class="flow-box">
+
+                    <i class="fas fa-user"></i>
+
+                    <h3>User</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fab fa-react"></i>
+
+                    <h3>React Frontend</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-server"></i>
+
+                    <h3>FastAPI</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-wave-square"></i>
+
+                    <h3>Audio Processing</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>Wav2Vec2 Model</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-chart-bar"></i>
+
+                    <h3>Prediction</h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ WORKFLOW ================-->
+
+        <section class="workflow">
+
+            <div class="section-title">
+
+                <p>Execution Pipeline</p>
+
+                <h2>Project Workflow</h2>
+
+            </div>
+
+            <div class="workflow-container">
+
+                <div class="workflow-step">
+
+                    <span>1</span>
+
+                    <h3>Upload Audio</h3>
+
+                </div>
+
+                <div class="workflow-step">
+
+                    <span>2</span>
+
+                    <h3>Preprocess Audio</h3>
+
+                </div>
+
+                <div class="workflow-step">
+
+                    <span>3</span>
+
+                    <h3>Feature Extraction</h3>
+
+                </div>
+
+                <div class="workflow-step">
+
+                    <span>4</span>
+
+                    <h3>Model Inference</h3>
+
+                </div>
+
+                <div class="workflow-step">
+
+                    <span>5</span>
+
+                    <h3>Prediction</h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ SCREENSHOTS ================-->
+
+        <section class="screenshots">
+
+            <div class="section-title">
+
+                <p>Application Preview</p>
+
+                <h2>Screenshots</h2>
+
+            </div>
+
+            <div class="screenshots-grid">
+
+                <div class="screenshot-card">
+
+                    <img
+                        src="../assets/images/projects/stuttering-dashboard.png"
+                        alt="Dashboard">
+
+                    <h3>Dashboard</h3>
+
+                    <p>
+
+                        Modern React dashboard allowing users to upload
+                        speech recordings and monitor predictions.
+
+                    </p>
+
+                </div>
+
+                <div class="screenshot-card">
+
+                    <img src="../assets/images/projects/stuttering-upload.png"
+                        alt="Upload">
+
+                    <h3>Audio Upload</h3>
+
+                    <p>
+
+                        Upload speech recordings with automatic validation
+                        and preprocessing before inference.
+
+                    </p>
+
+                </div>
+
+                <div class="screenshot-card">
+
+                    <img src="../assets/images/projects/stuttering-result.png"
+                        alt="Prediction">
+
+                    <h3>Prediction Result</h3>
+
+                    <p>
+
+                        Displays classification result together with
+                        confidence score generated by the AI model.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ CHALLENGES ================-->
+
+        <section class="project-challenges">
+
+            <div class="section-title">
+
+                <p>Development Journey</p>
+
+                <h2>Challenges & Solutions</h2>
+
+            </div>
+
+            <div class="challenge-grid">
+
+                <div class="challenge-card">
+
+                    <i class="fas fa-database"></i>
+
+                    <h3>Dataset Preparation</h3>
+
+                    <p>
+
+                        Curated and organized speech recordings to improve
+                        consistency during model training and evaluation.
+
+                    </p>
+
+                </div>
+
+                <div class="challenge-card">
+
+                    <i class="fas fa-wave-square"></i>
+
+                    <h3>Audio Processing</h3>
+
+                    <p>
+
+                        Standardized sampling rate, preprocessing and feature
+                        extraction using Librosa and FFmpeg.
+
+                    </p>
+
+                </div>
+
+                <div class="challenge-card">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>Model Integration</h3>
+
+                    <p>
+
+                        Connected the trained Wav2Vec2 model with a FastAPI
+                        backend for efficient inference.
+
+                    </p>
+
+                </div>
+
+                <div class="challenge-card">
+
+                    <i class="fas fa-desktop"></i>
+
+                    <h3>User Experience</h3>
+
+                    <p>
+
+                        Built a responsive React interface providing an
+                        intuitive workflow for prediction.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ FUTURE ================-->
+
+        <section class="future-scope">
+
+            <div class="section-title">
+
+                <p>Roadmap</p>
+
+                <h2>Future Enhancements</h2>
+
+            </div>
+
+            <div class="future-grid">
+
+                <div class="future-card">
+
+                    <i class="fas fa-microphone"></i>
+
+                    <h3>Live Recording</h3>
+
+                    <p>
+
+                        Real-time microphone support for instant speech
+                        analysis.
+
+                    </p>
+
+                </div>
+
+                <div class="future-card">
+
+                    <i class="fas fa-cloud"></i>
+
+                    <h3>Cloud Deployment</h3>
+
+                    <p>
+
+                        Deploy the application using Docker and cloud
+                        infrastructure for public access.
+
+                    </p>
+
+                </div>
+
+                <div class="future-card">
+
+                    <i class="fas fa-user-shield"></i>
+
+                    <h3>User Accounts</h3>
+
+                    <p>
+
+                        Authentication, prediction history and secure user
+                        management.
+
+                    </p>
+
+                </div>
+
+                <div class="future-card">
+
+                    <i class="fas fa-chart-pie"></i>
+
+                    <h3>Analytics Dashboard</h3>
+
+                    <p>
+
+                        Interactive charts and prediction analytics for
+                        better interpretation.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ PROJECT SUMMARY ================-->
+
+        <section class="project-summary">
+
+            <div class="summary-content">
+
+                <h2>
+
+                    Project Outcomes
+
+                </h2>
+
+                <p>
+
+                    This project demonstrates the practical integration of
+                    Deep Learning, Speech Processing and Full Stack
+                    Development. It combines modern AI models with scalable
+                    backend services and a responsive frontend to create a
+                    complete end-to-end intelligent application.
+
+                </p>
+
+                <div class="summary-tags">
+
+                    <span>Deep Learning</span>
+                    <span>Speech AI</span>
+                    <span>FastAPI</span>
+                    <span>React</span>
+                    <span>PyTorch</span>
+                    <span>Machine Learning</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ GITHUB CTA ================-->
+
+        <section class="github-section">
+
+            <div class="github-card">
+
+                <i class="fab fa-github"></i>
+
+                <h2>
+
+                    Explore the Source Code
+
+                </h2>
+
+                <p>
+
+                    Browse the implementation, project structure,
+                    FastAPI backend, React frontend and AI model
+                    integration on GitHub.
+
+                </p>
+
+                <div class="github-buttons">
+
+                    <a href="https://github.com/Thor-asgardian/Stutering-Classifier"
+                        target="_blank"
+                        class="primary-btn">
+
+                        <i class="fab fa-github"></i>
+
+                        View GitHub
+
+                    </a>
+
+                    <a href="../index.html#projects"
+                        class="secondary-btn">
+
+                        <i class="fas fa-arrow-left"></i>
+
+                        Back to Portfolio
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ CONTACT ================-->
+
+        <section id="contact" class="contact-cta">
+
+            <h2>
+
+                Interested in collaborating?
+
+            </h2>
+
+            <p>
+
+                I'm always open to discussing Artificial Intelligence,
+                Machine Learning, Deep Learning, Full Stack Development
+                and research opportunities.
+
+            </p> <br>
+
+            <a href="mailto:bhuvanrms@gmail.com"
+                class="primary-btn">
+
+                <i class="fas fa-envelope"></i>
+
+                Contact Me
+
+            </a>
+
+        </section>
+
+        <!--================ FOOTER ================-->
+
+        <footer class="project-footer">
+
+            <div class="footer-content">
+
+                <h3>Bhuvan R</h3>
+
+                <p>
+
+                    Artificial Intelligence • Machine Learning •
+                    Computer Vision • Full Stack Development
+
+                </p>
+
+                <div class="footer-social">
+
+                    <a href="https://github.com/Thor-asgardian"
+                        target="_blank">
+
+                        <i class="fab fa-github"></i>
+
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/bhuvan-r-94983130b/"
+                        target="_blank">
+
+                        <i class="fab fa-linkedin"></i>
+
+                    </a>
+
+                    <a href="mailto:bhuvanrms@gmail.com">
+
+                        <i class="fas fa-envelope"></i>
+
+                    </a>
+
+                </div>
+
+                <p class="copyright">
+
+                    © 2026 Bhuvan R. All Rights Reserved.
+
+                </p>
+
+            </div>
+
+        </footer>
+
+        <script>
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+
+    anchor.addEventListener("click",function(e){
+
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute("href")).scrollIntoView({
+
+            behavior:"smooth"
+
+        });
+
+    });
+
+});
+
+</script>
+
+    </body>
+
+</html>

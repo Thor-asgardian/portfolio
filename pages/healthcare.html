@@ -1,0 +1,2760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+        <title>
+            AI-Powered Bilingual Healthcare Assistant | Bhuvan R
+        </title>
+
+        <meta name="description"
+            content="AI-powered multilingual healthcare assistant using Retrieval-Augmented Generation (RAG), LangChain, FAISS and conversational AI.">
+
+        <link rel="preconnect"
+            href="https://fonts.googleapis.com">
+
+        <link rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossorigin>
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet">
+
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+        <style>
+
+        /*==================================================
+                RESET & GLOBAL
+==================================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+:root{
+
+    --bg:#050816;
+    --bg2:#101827;
+    --card:#111c33;
+
+    --primary:#3b82f6;
+    --primary-dark:#2563eb;
+
+    --white:#ffffff;
+    --text:#d1d5db;
+    --border:rgba(255,255,255,.08);
+
+    --shadow:0 15px 35px rgba(0,0,0,.35);
+
+}
+
+body{
+
+    font-family:"Inter",sans-serif;
+
+    background:var(--bg);
+
+    color:var(--white);
+
+    line-height:1.7;
+
+    overflow-x:hidden;
+
+}
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        radial-gradient(circle at top right,
+        rgba(59,130,246,.18),
+        transparent 35%),
+
+        radial-gradient(circle at bottom left,
+        rgba(16,185,129,.12),
+        transparent 35%);
+
+    z-index:-2;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(5,8,22,.92);
+
+    z-index:-1;
+
+}
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+ul{
+
+    list-style:none;
+
+}
+
+section{
+
+    padding:100px 8%;
+
+}
+
+.container{
+
+    max-width:1300px;
+
+    margin:auto;
+
+}
+
+
+/*==================================================
+                    NAVBAR
+==================================================*/
+
+.project-header{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    backdrop-filter:blur(18px);
+
+    background:rgba(5,8,22,.75);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    z-index:999;
+
+}
+
+.project-nav{
+
+    max-width:1300px;
+
+    margin:auto;
+
+    height:80px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 30px;
+
+}
+
+.logo{
+
+    font-size:1.6rem;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+.project-nav ul{
+
+    display:flex;
+
+    gap:35px;
+
+}
+
+.project-nav ul li a{
+
+    color:#d1d5db;
+
+    transition:.3s;
+
+    font-weight:500;
+
+}
+
+.project-nav ul li a:hover{
+
+    color:var(--primary);
+
+}
+
+
+/*==================================================
+                     HERO
+==================================================*/
+
+.project-hero{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+.hero-container{
+
+    max-width:1300px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:70px;
+
+    align-items:center;
+
+}
+
+.project-label{
+
+    display:inline-block;
+
+    padding:10px 22px;
+
+    border-radius:50px;
+
+    background:rgba(59,130,246,.15);
+
+    color:#60a5fa;
+
+    font-weight:600;
+
+    margin-bottom:25px;
+
+}
+
+.hero-left h1{
+
+    font-size:4.3rem;
+
+    line-height:1.08;
+
+    margin-bottom:30px;
+
+}
+
+.hero-left h1 span{
+
+    color:var(--primary);
+
+}
+
+.hero-left p{
+
+    color:var(--text);
+
+    max-width:620px;
+
+    font-size:1.05rem;
+
+}
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:18px;
+
+    margin:40px 0;
+
+}
+
+.primary-btn,
+
+.secondary-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:15px 34px;
+
+    border-radius:12px;
+
+    transition:.35s;
+
+    font-weight:600;
+
+}
+
+.primary-btn{
+
+    background:var(--primary-dark);
+
+    color:#fff;
+
+}
+
+.primary-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 30px rgba(37,99,235,.35);
+
+}
+
+.secondary-btn{
+
+    border:2px solid var(--primary);
+
+    color:#60a5fa;
+
+}
+
+.secondary-btn:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.hero-tags{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+}
+
+.hero-tags span{
+
+    padding:10px 18px;
+
+    border-radius:30px;
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    color:#d1d5db;
+
+}
+
+.hero-right img{
+
+    border-radius:24px;
+
+    box-shadow:var(--shadow);
+
+}
+
+
+/*==================================================
+                 SECTION TITLE
+==================================================*/
+
+.section-title{
+
+    text-align:center;
+
+    margin-bottom:70px;
+
+}
+
+.section-title p{
+
+    color:#60a5fa;
+
+    font-weight:600;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+}
+
+.section-title h2{
+
+    margin-top:12px;
+
+    font-size:2.8rem;
+
+}
+
+
+/*==================================================
+                   OVERVIEW
+==================================================*/
+
+.overview-grid{
+
+    display:grid;
+
+    grid-template-columns:1.2fr 1fr;
+
+    gap:50px;
+
+    align-items:start;
+
+}
+
+.overview-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:24px;
+
+}
+
+.overview-text p{
+
+    color:var(--text);
+
+}
+
+.overview-cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+.info-card{
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:30px;
+
+    transition:.35s;
+
+}
+
+.info-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:var(--primary);
+
+}
+
+.info-card i{
+
+    font-size:2rem;
+
+    color:var(--primary);
+
+    margin-bottom:18px;
+
+}
+
+.info-card h3{
+
+    margin-bottom:10px;
+
+}
+
+.info-card p{
+
+    color:var(--text);
+
+}
+
+
+/*==================================================
+                PROJECT STATS
+==================================================*/
+
+.project-stats{
+
+    max-width:1300px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:25px;
+
+}
+
+.stat-card{
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:35px;
+
+    text-align:center;
+
+    transition:.35s;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:var(--primary);
+
+}
+
+.stat-card h2{
+
+    font-size:2.6rem;
+
+    color:var(--primary);
+
+    margin-bottom:10px;
+
+}
+
+.stat-card p{
+
+    color:var(--text);
+
+}
+
+/*==================================================
+                    FEATURES
+==================================================*/
+
+.feature-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+
+}
+
+.feature-card{
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    transition:.35s;
+
+}
+
+.feature-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:var(--primary);
+
+    box-shadow:var(--shadow);
+
+}
+
+.feature-card i{
+
+    font-size:2.3rem;
+
+    color:var(--primary);
+
+    margin-bottom:20px;
+
+}
+
+.feature-card h3{
+
+    margin-bottom:15px;
+
+    font-size:1.3rem;
+
+}
+
+.feature-card p{
+
+    color:var(--text);
+
+}
+
+
+/*==================================================
+               TECHNOLOGY STACK
+==================================================*/
+
+.stack-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+
+}
+
+.stack-card{
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    transition:.35s;
+
+}
+
+.stack-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:var(--primary);
+
+}
+
+.stack-card i{
+
+    font-size:2.3rem;
+
+    color:var(--primary);
+
+    margin-bottom:20px;
+
+}
+
+.stack-card h3{
+
+    margin-bottom:18px;
+
+}
+
+.stack-card ul{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.stack-card li{
+
+    color:var(--text);
+
+    padding-left:18px;
+
+    position:relative;
+
+}
+
+.stack-card li::before{
+
+    content:"•";
+
+    position:absolute;
+
+    left:0;
+
+    color:var(--primary);
+
+}
+
+
+/*==================================================
+                ARCHITECTURE
+==================================================*/
+
+.architecture-flow{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+}
+
+.flow-box{
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:28px 25px;
+
+    min-width:180px;
+
+    text-align:center;
+
+    transition:.35s;
+
+}
+
+.flow-box:hover{
+
+    transform:translateY(-6px);
+
+    border-color:var(--primary);
+
+}
+
+.flow-box i{
+
+    font-size:2rem;
+
+    color:var(--primary);
+
+    margin-bottom:15px;
+
+}
+
+.flow-arrow{
+
+    font-size:2rem;
+
+    color:var(--primary);
+
+}
+
+
+/*==================================================
+                   WORKFLOW
+==================================================*/
+
+.workflow-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:30px;
+
+    flex-wrap:wrap;
+
+}
+
+.workflow-step{
+
+    width:170px;
+
+    text-align:center;
+
+    position:relative;
+
+}
+
+.workflow-step span{
+
+    width:65px;
+
+    height:65px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-size:1.4rem;
+
+    font-weight:700;
+
+    margin-bottom:18px;
+
+    box-shadow:0 10px 25px rgba(59,130,246,.35);
+
+}
+
+.workflow-step h3{
+
+    font-size:1.1rem;
+
+}
+
+
+/*==================================================
+                  RESPONSIVE
+==================================================*/
+
+@media(max-width:992px){
+
+    .hero-container,
+    .overview-grid{
+
+        grid-template-columns:1fr;
+
+        text-align:center;
+
+    }
+
+    .hero-buttons{
+
+        justify-content:center;
+
+    }
+
+    .hero-tags{
+
+        justify-content:center;
+
+    }
+
+    .overview-cards{
+
+        margin-top:40px;
+
+    }
+
+    .project-stats{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .project-nav{
+
+        flex-direction:column;
+
+        height:auto;
+
+        padding:20px;
+
+        gap:20px;
+
+    }
+
+    .project-nav ul{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+    }
+
+    .hero-left h1{
+
+        font-size:3rem;
+
+    }
+
+    .section-title h2{
+
+        font-size:2.2rem;
+
+    }
+
+    .project-stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .overview-cards{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .workflow-container{
+
+        gap:20px;
+
+    }
+
+}
+
+/*==================================================
+                SCREENSHOTS
+==================================================*/
+
+.screenshots-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+
+    gap:30px;
+
+}
+
+.screenshot-card{
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+}
+
+.screenshot-card:hover{
+
+    transform:translateY(-10px);
+
+    border-color:var(--primary);
+
+    box-shadow:var(--shadow);
+
+}
+
+.screenshot-card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+
+}
+
+.screenshot-card h3{
+
+    padding:25px 25px 10px;
+
+}
+
+.screenshot-card p{
+
+    padding:0 25px 30px;
+
+    color:var(--text);
+
+}
+
+
+/*==================================================
+              CHALLENGES
+==================================================*/
+
+.challenge-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+
+    gap:25px;
+
+}
+
+.challenge-card{
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    transition:.35s;
+
+}
+
+.challenge-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#ef4444;
+
+}
+
+.challenge-card i{
+
+    font-size:2.3rem;
+
+    color:#ef4444;
+
+    margin-bottom:18px;
+
+}
+
+.challenge-card h3{
+
+    margin-bottom:15px;
+
+}
+
+.challenge-card p{
+
+    color:var(--text);
+
+}
+
+
+/*==================================================
+              FUTURE SCOPE
+==================================================*/
+
+.future-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+
+    gap:25px;
+
+}
+
+.future-card{
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    transition:.35s;
+
+}
+
+.future-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#10b981;
+
+}
+
+.future-card i{
+
+    font-size:2.3rem;
+
+    color:#10b981;
+
+    margin-bottom:18px;
+
+}
+
+.future-card h3{
+
+    margin-bottom:15px;
+
+}
+
+.future-card p{
+
+    color:var(--text);
+
+}
+
+
+/*==================================================
+             PROJECT SUMMARY
+==================================================*/
+
+.summary-content{
+
+    max-width:900px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+.summary-content h2{
+
+    font-size:2.8rem;
+
+    margin-bottom:25px;
+
+}
+
+.summary-content p{
+
+    color:var(--text);
+
+    margin-bottom:40px;
+
+}
+
+.summary-tags{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+}
+
+.summary-tags span{
+
+    padding:12px 22px;
+
+    border-radius:40px;
+
+    background:var(--bg2);
+
+    border:1px solid var(--border);
+
+    transition:.3s;
+
+}
+
+.summary-tags span:hover{
+
+    background:var(--primary);
+
+}
+
+
+/*==================================================
+              GITHUB SECTION
+==================================================*/
+
+.github-section{
+
+    padding:100px 8%;
+
+}
+
+.github-card{
+
+    max-width:950px;
+
+    margin:auto;
+
+    background:linear-gradient(145deg,#111827,#0b1224);
+
+    border:1px solid var(--border);
+
+    border-radius:30px;
+
+    padding:70px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+.github-card>i{
+
+    font-size:4rem;
+
+    color:var(--primary);
+
+    margin-bottom:25px;
+
+}
+
+.github-card h2{
+
+    margin-bottom:20px;
+
+    font-size:2.4rem;
+
+}
+
+.github-card p{
+
+    color:var(--text);
+
+    margin-bottom:40px;
+
+}
+
+.github-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+/*==================================================
+                    CONTACT
+==================================================*/
+
+.contact-cta{
+
+    text-align:center;
+
+    padding:100px 8%;
+
+}
+
+.contact-cta h2{
+
+    font-size:2.8rem;
+
+    margin-bottom:20px;
+
+}
+
+.contact-cta p{
+
+    max-width:750px;
+
+    margin:0 auto 40px;
+
+    color:var(--text);
+
+}
+
+.contact-cta .primary-btn{
+
+    display:inline-flex;
+
+}
+
+
+/*==================================================
+                    FOOTER
+==================================================*/
+
+.project-footer{
+
+    background:#030712;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    padding:60px 8%;
+
+}
+
+.footer-content{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+.footer-content h3{
+
+    font-size:2rem;
+
+    margin-bottom:15px;
+
+}
+
+.footer-content p{
+
+    color:var(--text);
+
+}
+
+.footer-social{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:18px;
+
+    margin:35px 0;
+
+}
+
+.footer-social a{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:var(--bg2);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    transition:.35s;
+
+    border:1px solid var(--border);
+
+}
+
+.footer-social a:hover{
+
+    background:var(--primary);
+
+    transform:translateY(-6px);
+
+}
+
+.footer-social i{
+
+    font-size:1.2rem;
+
+}
+
+.copyright{
+
+    margin-top:25px;
+
+    font-size:.95rem;
+
+    color:#9ca3af;
+
+}
+
+
+/*==================================================
+                  HOVER EFFECTS
+==================================================*/
+
+.primary-btn,
+.secondary-btn,
+.info-card,
+.feature-card,
+.stack-card,
+.stat-card,
+.screenshot-card,
+.challenge-card,
+.future-card,
+.flow-box{
+
+    transition:all .35s ease;
+
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.hero-tags span:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    transform:translateY(-4px);
+
+}
+
+.stack-card:hover i,
+.feature-card:hover i,
+.info-card:hover i{
+
+    transform:scale(1.1);
+
+}
+
+
+/*==================================================
+                 SCROLLBAR
+==================================================*/
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#050816;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#2563eb;
+
+    border-radius:30px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#3b82f6;
+
+}
+
+
+/*==================================================
+                   ANIMATIONS
+==================================================*/
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes fadeLeft{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(-60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+@keyframes fadeRight{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(60px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+@keyframes float{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-12px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.hero-left{
+
+    animation:fadeLeft 1s ease;
+
+}
+
+.hero-right{
+
+    animation:fadeRight 1s ease;
+
+}
+
+.hero-right img{
+
+    animation:float 5s ease-in-out infinite;
+
+}
+
+.section-title{
+
+    animation:fadeUp .8s ease;
+
+}
+
+
+/*==================================================
+              MOBILE RESPONSIVE
+==================================================*/
+
+@media(max-width:992px){
+
+    .hero-container{
+
+        grid-template-columns:1fr;
+
+        text-align:center;
+
+        gap:50px;
+
+    }
+
+    .hero-buttons{
+
+        justify-content:center;
+
+    }
+
+    .hero-tags{
+
+        justify-content:center;
+
+    }
+
+    .overview-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .architecture-flow{
+
+        flex-direction:column;
+
+    }
+
+    .flow-arrow{
+
+        transform:rotate(90deg);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    section{
+
+        padding:80px 25px;
+
+    }
+
+    .project-nav{
+
+        flex-direction:column;
+
+        height:auto;
+
+        padding:20px;
+
+    }
+
+    .project-nav ul{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:18px;
+
+    }
+
+    .hero-left h1{
+
+        font-size:2.8rem;
+
+    }
+
+    .section-title h2{
+
+        font-size:2.1rem;
+
+    }
+
+    .screenshots-grid,
+    .feature-grid,
+    .stack-grid,
+    .future-grid,
+    .challenge-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .project-stats{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .hero-buttons{
+
+        flex-direction:column;
+
+    }
+
+    .primary-btn,
+    .secondary-btn{
+
+        width:100%;
+
+        justify-content:center;
+
+    }
+
+    .hero-left h1{
+
+        font-size:2.3rem;
+
+    }
+
+    .github-card{
+
+        padding:40px 25px;
+
+    }
+
+}
+
+    </style>
+
+    </head>
+
+    <body>
+
+        <header class="project-header">
+
+            <nav class="project-nav">
+
+                <a href="../index.html" class="logo">
+
+                    Bhuvan R
+
+                </a>
+
+                <ul>
+
+                    <li><a href="#overview">Overview</a></li>
+
+                    <li><a href="#features">Features</a></li>
+
+                    <li><a href="#architecture">Architecture</a></li>
+
+                    <li><a href="#contact">Contact</a></li>
+
+                </ul>
+
+            </nav>
+
+        </header>
+
+        <section class="project-hero">
+
+            <div class="hero-container">
+
+                <div class="hero-left">
+
+                    <span class="project-label">
+
+                        Artificial Intelligence • NLP • Healthcare
+
+                    </span>
+
+                    <h1>
+
+                        AI-Powered
+
+                        <br>
+
+                        <span>Bilingual Healthcare Assistant</span>
+
+                    </h1>
+
+                    <p>
+
+                        An intelligent healthcare assistant that leverages
+                        Retrieval-Augmented Generation (RAG), LangChain,
+                        FAISS, and Large Language Models to provide
+                        multilingual, context-aware healthcare guidance
+                        through natural voice and text conversations.
+
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="https://github.com/Thor-asgardian"
+                            class="primary-btn">
+
+                            <i class="fab fa-github"></i>
+
+                            GitHub
+
+                        </a>
+
+                        <a href="../index.html"
+                            class="secondary-btn">
+
+                            Back to Portfolio
+
+                        </a>
+
+                    </div>
+
+                    <div class="hero-tags">
+
+                        <span>Python</span>
+
+                        <span>Flask</span>
+
+                        <span>LangChain</span>
+
+                        <span>FAISS</span>
+
+                        <span>RAG</span>
+
+                        <span>LLM</span>
+
+                    </div>
+
+                </div>
+
+                <div class="hero-right">
+
+                    <img src="../assets/images/projects/healthcare-cover.png"
+                        alt="Healthcare Assistant">
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section id="overview">
+
+            <div class="section-title">
+
+                <p>Project Overview</p>
+
+                <h2>Intelligent Healthcare Assistance</h2>
+
+            </div>
+
+            <div class="overview-grid">
+
+                <div class="overview-text">
+
+                    <p>
+
+                        The AI-Powered Bilingual Healthcare Assistant was
+                        designed to improve healthcare accessibility through
+                        conversational artificial intelligence.
+
+                    </p>
+
+                    <p>
+
+                        The application combines semantic search, vector
+                        databases, Retrieval-Augmented Generation, and
+                        multilingual natural language processing to provide
+                        accurate and context-aware responses.
+
+                    </p>
+
+                    <p>
+
+                        The system demonstrates how Generative AI can be
+                        integrated with modern web technologies to create a
+                        scalable healthcare solution.
+
+                    </p>
+
+                </div>
+
+                <div class="overview-cards">
+
+                    <div class="info-card">
+
+                        <i class="fas fa-language"></i>
+
+                        <h3>Multilingual AI</h3>
+
+                        <p>
+
+                            Healthcare assistance in multiple languages.
+
+                        </p>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <i class="fas fa-comments"></i>
+
+                        <h3>Conversational AI</h3>
+
+                        <p>
+
+                            Natural voice and text interaction.
+
+                        </p>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <i class="fas fa-database"></i>
+
+                        <h3>Semantic Search</h3>
+
+                        <p>
+
+                            FAISS-powered vector similarity search.
+
+                        </p>
+
+                    </div>
+
+                    <div class="info-card">
+
+                        <i class="fas fa-robot"></i>
+
+                        <h3>RAG</h3>
+
+                        <p>
+
+                            Context-aware healthcare response generation.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ PROJECT STATS ================-->
+
+        <section class="project-stats">
+
+            <div class="stat-card">
+
+                <h2>10+</h2>
+
+                <p>Technologies Used</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>RAG</h2>
+
+                <p>Knowledge Retrieval</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>AI</h2>
+
+                <p>Conversational Intelligence</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>24/7</h2>
+
+                <p>Healthcare Support</p>
+
+            </div>
+
+        </section>
+
+        <!--================ FEATURES ================-->
+
+        <section id="features" class="project-features">
+
+            <div class="section-title">
+
+                <p>Capabilities</p>
+
+                <h2>Key Features</h2>
+
+            </div>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <i class="fas fa-language"></i>
+
+                    <h3>Multilingual Conversations</h3>
+
+                    <p>
+
+                        Supports multiple languages, enabling users to
+                        communicate
+                        naturally and receive healthcare guidance in their
+                        preferred
+                        language.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>Retrieval-Augmented Generation</h3>
+
+                    <p>
+
+                        Combines semantic search with Large Language Models
+                        to produce context-aware healthcare responses.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-database"></i>
+
+                    <h3>Semantic Search</h3>
+
+                    <p>
+
+                        Uses vector embeddings and FAISS to retrieve relevant
+                        healthcare knowledge before generating responses.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-microphone"></i>
+
+                    <h3>Speech Recognition</h3>
+
+                    <p>
+
+                        Accepts voice input using speech-to-text processing
+                        for hands-free interaction.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-comments"></i>
+
+                    <h3>Natural Conversations</h3>
+
+                    <p>
+
+                        Understands user intent and maintains conversational
+                        context for better interactions.
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <i class="fas fa-shield-heart"></i>
+
+                    <h3>Healthcare Guidance</h3>
+
+                    <p>
+
+                        Provides quick healthcare information through an
+                        intelligent conversational interface.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ TECHNOLOGY STACK ================-->
+
+        <section class="technology-stack">
+
+            <div class="section-title">
+
+                <p>Development Stack</p>
+
+                <h2>Technology Stack</h2>
+
+            </div>
+
+            <div class="stack-grid">
+
+                <div class="stack-card">
+
+                    <i class="fab fa-html5"></i>
+
+                    <h3>Frontend</h3>
+
+                    <ul>
+
+                        <li>HTML5</li>
+
+                        <li>CSS3</li>
+
+                        <li>JavaScript</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="stack-card">
+
+                    <i class="fas fa-server"></i>
+
+                    <h3>Backend</h3>
+
+                    <ul>
+
+                        <li>Python</li>
+
+                        <li>Flask</li>
+
+                        <li>REST API</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="stack-card">
+
+                    <i class="fas fa-robot"></i>
+
+                    <h3>Artificial Intelligence</h3>
+
+                    <ul>
+
+                        <li>LangChain</li>
+
+                        <li>OpenAI API</li>
+
+                        <li>RAG</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="stack-card">
+
+                    <i class="fas fa-database"></i>
+
+                    <h3>Knowledge Base</h3>
+
+                    <ul>
+
+                        <li>FAISS</li>
+
+                        <li>Embeddings</li>
+
+                        <li>Semantic Search</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ ARCHITECTURE ================-->
+
+        <section id="architecture">
+
+            <div class="section-title">
+
+                <p>System Design</p>
+
+                <h2>Architecture</h2>
+
+            </div>
+
+            <div class="architecture-flow">
+
+                <div class="flow-box">
+
+                    <i class="fas fa-user"></i>
+
+                    <h3>User</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+
+                    <i class="fas fa-arrow-right"></i>
+
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-keyboard"></i>
+
+                    <h3>Voice / Text</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+
+                    <i class="fas fa-arrow-right"></i>
+
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-server"></i>
+
+                    <h3>Flask API</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+
+                    <i class="fas fa-arrow-right"></i>
+
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-database"></i>
+
+                    <h3>FAISS</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+
+                    <i class="fas fa-arrow-right"></i>
+
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>LLM + LangChain</h3>
+
+                </div>
+
+                <div class="flow-arrow">
+
+                    <i class="fas fa-arrow-right"></i>
+
+                </div>
+
+                <div class="flow-box">
+
+                    <i class="fas fa-notes-medical"></i>
+
+                    <h3>Healthcare Response</h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ WORKFLOW ================-->
+
+        <section class="workflow">
+
+            <div class="section-title">
+
+                <p>Execution Pipeline</p>
+
+                <h2>Workflow</h2>
+
+            </div>
+
+            <div class="workflow-container">
+
+                <div class="workflow-step">
+
+                    <span>1</span>
+
+                    <h3>User Query</h3>
+
+                </div>
+
+                <div class="workflow-step">
+
+                    <span>2</span>
+
+                    <h3>Speech Recognition</h3>
+
+                </div>
+
+                <div class="workflow-step">
+
+                    <span>3</span>
+
+                    <h3>Semantic Search</h3>
+
+                </div>
+
+                <div class="workflow-step">
+
+                    <span>4</span>
+
+                    <h3>LLM Processing</h3>
+
+                </div>
+
+                <div class="workflow-step">
+
+                    <span>5</span>
+
+                    <h3>Healthcare Response</h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ SCREENSHOTS ================-->
+
+        <section class="screenshots">
+
+            <div class="section-title">
+
+                <p>Application Preview</p>
+
+                <h2>Project Gallery</h2>
+
+            </div>
+
+            <div class="screenshots-grid">
+
+                <div class="screenshot-card">
+
+                    <img
+                        src="../assets/images/projects/healthcare-dashboard.png"
+                        alt="Healthcare Dashboard">
+
+                    <h3>Main Dashboard</h3>
+
+                    <p>
+
+                        Modern healthcare dashboard supporting multilingual
+                        interactions and intelligent navigation.
+
+                    </p>
+
+                </div>
+
+                <div class="screenshot-card">
+
+                    <img src="../assets/images/projects/healthcare-chat.png"
+                        alt="Healthcare Chat">
+
+                    <h3>Conversational Assistant</h3>
+
+                    <p>
+
+                        AI-powered chatbot providing healthcare guidance using
+                        Retrieval-Augmented Generation.
+
+                    </p>
+
+                </div>
+
+                <div class="screenshot-card">
+
+                    <img src="../assets/images/projects/healthcare-results.png"
+                        alt="Healthcare Response">
+
+                    <h3>Response Generation</h3>
+
+                    <p>
+
+                        Context-aware healthcare responses generated using
+                        semantic search and Large Language Models.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ CHALLENGES ================-->
+
+        <section class="project-challenges">
+
+            <div class="section-title">
+
+                <p>Development Journey</p>
+
+                <h2>Challenges & Solutions</h2>
+
+            </div>
+
+            <div class="challenge-grid">
+
+                <div class="challenge-card">
+
+                    <i class="fas fa-language"></i>
+
+                    <h3>Multilingual Support</h3>
+
+                    <p>
+
+                        Ensuring consistent healthcare responses across
+                        multiple languages while preserving medical meaning.
+
+                    </p>
+
+                </div>
+
+                <div class="challenge-card">
+
+                    <i class="fas fa-database"></i>
+
+                    <h3>Knowledge Retrieval</h3>
+
+                    <p>
+
+                        Building an efficient semantic search pipeline
+                        using FAISS and vector embeddings.
+
+                    </p>
+
+                </div>
+
+                <div class="challenge-card">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>LLM Integration</h3>
+
+                    <p>
+
+                        Combining Retrieval-Augmented Generation with
+                        conversational AI for reliable responses.
+
+                    </p>
+
+                </div>
+
+                <div class="challenge-card">
+
+                    <i class="fas fa-microphone-alt"></i>
+
+                    <h3>Voice Processing</h3>
+
+                    <p>
+
+                        Supporting speech-to-text interactions while
+                        maintaining conversational context.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ FUTURE ================-->
+
+        <section class="future-scope">
+
+            <div class="section-title">
+
+                <p>Roadmap</p>
+
+                <h2>Future Enhancements</h2>
+
+            </div>
+
+            <div class="future-grid">
+
+                <div class="future-card">
+
+                    <i class="fas fa-hospital"></i>
+
+                    <h3>Hospital Integration</h3>
+
+                    <p>
+
+                        Connect with hospital systems for appointment
+                        scheduling and patient support.
+
+                    </p>
+
+                </div>
+
+                <div class="future-card">
+
+                    <i class="fas fa-mobile-alt"></i>
+
+                    <h3>Mobile Application</h3>
+
+                    <p>
+
+                        Develop Android and iOS applications for
+                        healthcare assistance anywhere.
+
+                    </p>
+
+                </div>
+
+                <div class="future-card">
+
+                    <i class="fas fa-file-medical"></i>
+
+                    <h3>Electronic Health Records</h3>
+
+                    <p>
+
+                        Secure integration with patient health
+                        records for personalized responses.
+
+                    </p>
+
+                </div>
+
+                <div class="future-card">
+
+                    <i class="fas fa-user-md"></i>
+
+                    <h3>Doctor Collaboration</h3>
+
+                    <p>
+
+                        Enable collaboration between AI assistants
+                        and healthcare professionals.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ SUMMARY ================-->
+
+        <section class="project-summary">
+
+            <div class="summary-content">
+
+                <h2>
+
+                    Project Outcomes
+
+                </h2>
+
+                <p>
+
+                    This project demonstrates the integration of Natural
+                    Language Processing, Retrieval-Augmented Generation,
+                    Semantic Search, Speech Recognition and Full Stack
+                    Development to create a multilingual intelligent
+                    healthcare assistant capable of delivering
+                    context-aware healthcare guidance.
+
+                </p>
+
+                <div class="summary-tags">
+
+                    <span>Artificial Intelligence</span>
+
+                    <span>Healthcare AI</span>
+
+                    <span>LangChain</span>
+
+                    <span>RAG</span>
+
+                    <span>FAISS</span>
+
+                    <span>LLM</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ GITHUB ================-->
+
+        <section class="github-section">
+
+            <div class="github-card">
+
+                <i class="fab fa-github"></i>
+
+                <h2>
+
+                    Explore the Source Code
+
+                </h2>
+
+                <p>
+
+                    Browse the implementation of the multilingual
+                    healthcare assistant, including Flask backend,
+                    LangChain integration, Retrieval-Augmented
+                    Generation and semantic search.
+
+                </p>
+
+                <div class="github-buttons">
+
+                    <a href="https://github.com/Thor-asgardian"
+                        target="_blank"
+                        class="primary-btn">
+
+                        <i class="fab fa-github"></i>
+
+                        View GitHub
+
+                    </a>
+
+                    <a href="../index.html#projects"
+                        class="secondary-btn">
+
+                        <i class="fas fa-arrow-left"></i>
+
+                        Back to Portfolio
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--================ CONTACT ================-->
+
+        <section id="contact" class="contact-cta">
+
+            <h2>
+
+                Let's Build Intelligent Healthcare Solutions
+
+            </h2>
+
+            <p>
+
+                Interested in Artificial Intelligence, Machine Learning,
+                NLP or Healthcare Technology? Feel free to connect and
+                collaborate.
+
+            </p>
+
+            <a href="mailto:bhuvanrms@gmail.com"
+                class="primary-btn">
+
+                <i class="fas fa-envelope"></i>
+
+                Contact Me
+
+            </a>
+
+        </section>
+
+        <!--================ FOOTER ================-->
+
+        <footer class="project-footer">
+
+            <div class="footer-content">
+
+                <h3>
+
+                    Bhuvan R
+
+                </h3>
+
+                <p>
+
+                    Artificial Intelligence • Machine Learning •
+                    NLP • Healthcare AI • Full Stack Development
+
+                </p>
+
+                <div class="footer-social">
+
+                    <a href="https://github.com/Thor-asgardian" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/bhuvan-r-94983130b/"
+                        target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+
+                    <a href="mailto:bhuvanrms@gmail.com">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+
+                </div>
+
+                <p class="copyright">
+
+                    © 2026 Bhuvan R. All Rights Reserved.
+
+                </p>
+
+            </div>
+
+        </footer>
+
+        <script>
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+
+    anchor.addEventListener("click",function(e){
+
+        e.preventDefault();
+
+        const target=document.querySelector(this.getAttribute("href"));
+
+        if(target){
+
+            target.scrollIntoView({
+
+                behavior:"smooth"
+
+            });
+
+        }
+
+    });
+
+});
+
+window.addEventListener("scroll",()=>{
+
+    const header=document.querySelector(".project-header");
+
+    if(window.scrollY>80){
+
+        header.style.background="rgba(5,8,20,.95)";
+
+    }else{
+
+        header.style.background="rgba(5,8,20,.75)";
+
+    }
+
+});
+
+</script>
+
+    </body>
+
+</html>
